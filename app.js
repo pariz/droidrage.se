@@ -63,7 +63,7 @@
       ],
       ["> ... unfortunately few get it :/"],
       [
-        "> I decided to start my company in fall 2021 after a long time working as an employed developer.",
+        "> I decided to start my company in spring 2021 after a long time working as an employed developer.",
       ],
       [">  "],
     ],
