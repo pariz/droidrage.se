@@ -44,9 +44,8 @@
     html {
       margin: 0;
       padding: 0;
-      font-size: 1.2em;
+      font-size: .9em;
     }
-
 
     body {
       background: #0F0F0F;
@@ -56,10 +55,24 @@
       box-sizing: border-box;
     }
 
+    .display-frame {
+      border-radius: 6px;
+      border: 2px solid rgb(9, 11, 9);
+    }
+
+    .display {
+      width: 100%;
+      height: 200px;
+      display: inline-block;
+
+      background-color: rgb(17 23 18);
+      border-radius: 20px;
+
+    }
 
     .display-content {
       padding: 20px;
-      box-shadow: inset 0px 0px 20px rgba(0, 0, 0,0.9);
+      box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.9);
       background-color: #141c14;
       position: relative;
 
@@ -70,7 +83,7 @@
       border-radius: 20px;
 
       perspective: 100px;
-      
+
     }
 
     .display-content::after {
@@ -89,31 +102,6 @@
 
     }
 
-    .display-frame {
-      padding:40px;
-      background-color: rgb(17 23 18);
-      border-radius: 6px;
-      border: 2px solid rgb(9, 11, 9);
-      
-
-    }
-
-    .display {
-      width: 800px;
-      height: 600px;
-      display: inline-block;
-
-      background-color: rgb(17 23 18);
-      border-radius: 20px;
-
-      border: 30px solid transparent;
-      border-image-source: url(./bezel-transparent2.png);
-      border-image-slice: 30 fill;
-      border-image-outset: 0;
-      overflow: hidden;
-
-    }
-
     .terminal-output,
     a {
       color: rgba(125, 225, 125, 0.75);
@@ -123,38 +111,22 @@
     }
 
     .terminal-output {
-        width: 100%;
-        border-radius: 20px;
-        z-index: 1;
-        position: relative;
-        
-      }
+      width: 100%;
+      border-radius: 20px;
+      z-index: 1;
+      position: relative;
+
+    }
+
+    .cursor {
+      animation: cursor .8s ease infinite;
+    }
 
     @media screen and (min-width: 800px) {
 
-      .cursor {
-        animation: cursor .8s ease infinite;
-      }
-
-      .display-content {
-        /* display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;*/
-        padding: 20px;
-        width: 100%;
-        height: 100%;
-        max-width: 800px;
-        max-height: 600px;
-        border-radius: 20px;
-      }
-
-      .display {
-        width: 800px;
-        height: 600px;
-        
-        border-radius: 20px;
-
+      html,
+      body {
+        font-size: 1.2em;
       }
 
       .container {
@@ -165,9 +137,33 @@
         height: 100vh;
       }
 
+      .display {
+        width: 800px;
+        height: 600px;
 
+        border-radius: 20px;
+        border: 30px solid transparent;
+        border-image-source: url(./bezel-transparent2.png);
+        border-image-slice: 30 fill;
+        border-image-outset: 0;
+        overflow: hidden;
 
-      
+      }
+
+      .display-frame {
+        padding: 40px;
+        background-color: rgb(17 23 18);
+      }
+
+      .display-content {
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        max-width: 800px;
+        max-height: 600px;
+        border-radius: 20px;
+      }
+
     }
   </style>
 
@@ -177,247 +173,14 @@
 <body>
   <div class="container">
     <div class="display-frame">
-    <div class="display">
-      <div class="display-content">
-        <div class="terminal-output"></div>
-      </div></div>
+      <div class="display">
+        <div class="display-content">
+          <div class="terminal-output"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <script>
-    (function () {
-      var repl = [
-        [
-          ['>       _           _     _                      '],
-          ['>    __| |_ __ ___ (_) __| |_ __ __ _  __ _  ___ '],
-          [">   / _` | '__/ _ \\| |/ _` | '__/ _` |/ _` |/ _ \\"],
-          ['>  | (_| | | | (_) | | (_| | | | (_| | (_| |  __/'],
-          ['>   \\__,_|_|  \\___/|_|\\__,_|_|  \\__,_|\\__, |\\___|'],
-          ['>                                     |___/      '],
-          ['>  '],
-          ['> welcome to droidrage'],
-          ['>  '],
-          ['> highpriest of the mainframe since ´99'],
-          ['>  '],
-        ],
-        [
-          ['> I was born in the northern part of Sweden in ´80'],
-          ['> Been writing code since 15 years of age,'],
-          ['> working as a full time developer since ´99'],
-          ['>  '],
-        ],
-        [
-          ['> wanna get in touch?'],
-          ['> you can find me at ',
-            ['github', 'https://github.com/pariz'],
-            ', ',
-            ['stack overflow', 'https://stackoverflow.com/users/1503261/p%c3%a4r-karlsson'],
-            ', ',
-            ['linkedin', 'https://www.linkedin.com/in/parkarlsson']
-          ],
-          ['> or contact me by dropping an email at hi@{replace-with-my-domain}'],
-          ['>  '],
-        ],
-        [
-          [
-            '> For the past couple of years, i have mostly worked with Golang, Elixir, JavaScript, various SQL/NoSQL DBs, Redis and RabbitMQ'
-          ],
-          ['> The stuff i have worked on has usually been running on AWS or GCP, either in k8s or nomad'],
-          ['>  '],
-          ['> I tend to learn new things very quickly'],
-          ['>  '],
-          ['> My full resumé is available upon request'],
-          ['>  '],
-        ],
-      ];
-
-      var commands = [
-        "> available commands: ",
-        [
-          ["home", 0],
-          ["whoami", 1],
-          ["tech", 3],
-          ["contact", 2],
-        ]
-      ]
-
-      const container = document.getElementsByClassName("terminal-output")[0]
-
-      var inputReady = false
-
-      async function writeLines(lines) {
-
-        for (const line of lines) {
-          var [elem, elemContent, removeCursorFunction] = genElements()
-
-          container.appendChild(elem)
-
-          for (const col of line) {
-
-            switch (typeof col) {
-              case 'object':
-                const link = document.createElement("a")
-                link.setAttribute("href", col[1])
-                link.setAttribute("target", "_blank")
-
-                elemContent.appendChild(link)
-
-                await writeChars(col[0], link)
-                break
-
-              default:
-                const charElem = document.createElement("span")
-                elemContent.appendChild(charElem)
-                await writeChars(col, charElem)
-            }
-
-
-          }
-          removeCursorFunction()
-        }
-      }
-
-      async function writeCommands() {
-        const [h, cmds] = commands
-
-        var [elem, elemContent, removeCursorFunction] = genElements()
-
-        container.appendChild(elem)
-
-        await writeChars(h, elemContent)
-
-        for (const cmd of cmds) {
-          const commandLink = document.createElement("a")
-          commandLink.href = "#/" + cmd[0]
-
-          elemContent.appendChild(commandLink)
-
-          commandLink.addEventListener("touchend", function (e) {
-            e.preventDefault();
-            pushState(cmd[0])
-            write(repl[cmd[1]])
-          })
-
-          commandLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            pushState(cmd[0])
-            write(repl[cmd[1]])
-          })
-
-          await writeChars(cmd[0], commandLink)
-
-          const spaceElement = document.createElement("span")
-          spaceElement.innerHTML = " "
-          elemContent.append(" ")
-        }
-
-        removeCursorFunction()
-
-      }
-
-      async function writeChars(chars, element) {
-        for (let i = 0; i < chars.length; i++) {
-          let char = chars[i]
-
-
-          element.innerHTML += char;
-          await sleep(30)
-        }
-      }
-
-      async function writeRepl() {
-        const [inputFeedElem, inputFeedElemContent] = genElements()
-        inputFeedElemContent.innerHTML += "> "
-        container.appendChild(inputFeedElem)
-      }
-
-      async function write(lines) {
-        inputReady = false
-
-        while (container.firstChild) {
-          container.removeChild(container.firstChild)
-        }
-
-        await writeLines(lines)
-        await writeCommands()
-        await writeRepl()
-
-        inputReady = true
-
-      }
-
-      function pushState(state) {
-        window.location.hash = state
-      }
-
-
-      (async function inputLoop() {
-
-        let inputBuffer = ""
-        window.addEventListener("keydown", function (evt) {
-
-          if (!inputReady) {
-            return
-          }
-
-          const replElem = container.lastChild.firstChild
-          
-          switch (evt.keyCode) {
-            case 13: // enter
-              const cmd = commands[1].find(c => c[0] === inputBuffer)
-              if (cmd !== undefined) {
-                pushState(cmd[0])
-                write(repl[cmd[1]])
-              }
-              inputBuffer = ""
-              break
-            case 8: // backspace
-              inputBuffer = inputBuffer.slice(0, -1)
-              break
-            default: // append to buffer
-              inputBuffer += evt.key
-
-          }
-          replElem.innerHTML = "> " + inputBuffer
-        })
-      })()
-
-      function genElements() {
-
-        var cursor = document.createElement("span")
-        cursor.innerHTML = "_"
-        cursor.className = "cursor"
-
-        var elem = document.createElement("div")
-        var elemContent = document.createElement("span")
-        elem.appendChild(elemContent)
-
-        elem.appendChild(cursor)
-
-        return [elem, elemContent, function () {
-          elem.removeChild(cursor)
-        }]
-      }
-
-      async function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-      }
-
-
-      // Init application
-
-      let page = window.location.hash.replace("#", "")
-      let replIdx = 0
-      if (page !== "") {
-        const cmd = commands[1].find(c => c[0] === page)
-        if (cmd !== undefined) {
-          replIdx = cmd[1]
-        }
-      }
-
-      write(repl[replIdx])
-
-    })()
-  </script>
+  <script fetchpriority="high" type="text/javascript" src="app.js"></script>
 
   <script data-goatcounter="https://droidrage.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
