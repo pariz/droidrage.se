@@ -9,6 +9,18 @@
   <title>Droidrage AB</title>
   <link rel="stylesheet" href="app.css">
 
+  <script type="text/javascript">
+    window.addEventListener("hashchange", setDocumentTitle);
+    window.addEventListener("DOMContentLoaded", setDocumentTitle);
+
+
+    function setDocumentTitle(evt) {
+      const page = document.location.hash.replace("#","")
+      if (page.length > 0) {
+        document.title = "Droidrage AB - " + page
+      }
+    }
+  </script>
 </head>
 
 <body>

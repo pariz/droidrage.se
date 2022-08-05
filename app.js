@@ -1,5 +1,5 @@
 (function () {
-  var repl = [
+  let repl = [
     [
       [">       _           _     _                      "],
       [">    __| |_ __ ___ (_) __| |_ __ __ _  __ _  ___ "],
@@ -69,7 +69,7 @@
     ],
   ];
 
-  var commands = [
+  let commands = [
     "> available commands: ",
     [
       ["home", 0],
@@ -81,12 +81,11 @@
   ];
 
   const container = document.getElementsByClassName("terminal-output")[0];
-
-  var inputReady = false;
+  let inputReady = false;
 
   async function writeReplLines(lines) {
     for (const line of lines) {
-      var [elem, elemContent, removeCursorFunction] = genElements();
+      let [elem, elemContent, removeCursorFunction] = genElements();
 
       container.appendChild(elem);
 
@@ -99,13 +98,13 @@
 
             elemContent.appendChild(link);
 
-            await writeChars(col[0], link);
+            await writeReplChars(col[0], link);
             break;
 
           default:
             const charElem = document.createElement("span");
             elemContent.appendChild(charElem);
-            await writeChars(col, charElem);
+            await writeReplChars(col, charElem);
         }
       }
       removeCursorFunction();
@@ -115,11 +114,11 @@
   async function writeReplCommands() {
     const [h, cmds] = commands;
 
-    var [elem, elemContent, removeCursorFunction] = genElements();
+    let [elem, elemContent, removeCursorFunction] = genElements();
 
     container.appendChild(elem);
 
-    await writeChars(h, elemContent);
+    await writeReplChars(h, elemContent);
 
     for (const cmd of cmds) {
       const commandLink = document.createElement("a");
@@ -138,7 +137,7 @@
 
       commandLink.addEventListener("click", handleInteraction);
 
-      await writeChars(cmd[0], commandLink);
+      await writeReplChars(cmd[0], commandLink);
 
       const spaceElement = document.createElement("span");
       spaceElement.innerHTML = " ";
@@ -148,7 +147,7 @@
     removeCursorFunction();
   }
 
-  async function writeChars(chars, element) {
+  async function writeReplChars(chars, element) {
     for (let i = 0; i < chars.length; i++) {
       let char = chars[i];
 
@@ -187,12 +186,12 @@
   }
 
   function genElements() {
-    var cursor = document.createElement("span");
+    let cursor = document.createElement("span");
     cursor.innerHTML = "_";
     cursor.className = "cursor";
 
-    var elem = document.createElement("div");
-    var elemContent = document.createElement("span");
+    let elem = document.createElement("div");
+    let elemContent = document.createElement("span");
     elem.appendChild(elemContent);
 
     elem.appendChild(cursor);
@@ -211,7 +210,7 @@
   }
 
   // Repl read loop
-  (async function replReadLoop() {
+  (function replReadLoop() {
     let inputBuffer = "";
     window.addEventListener("keydown", function (evt) {
       if (!inputReady) {
