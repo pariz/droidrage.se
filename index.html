@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="senior web developer">
+  <meta name="description" content="senior developer from Östersund, Sweden">
   <title>Droidrage AB</title>
   <link rel="stylesheet" href="app.css">
 
@@ -13,9 +13,8 @@
     window.addEventListener("hashchange", setDocumentTitle);
     window.addEventListener("DOMContentLoaded", setDocumentTitle);
 
-
     function setDocumentTitle(evt) {
-      const page = document.location.hash.replace("#","")
+      const page = document.location.hash.replace("#", "")
       if (page.length > 0) {
         document.title = "Droidrage AB - " + page
       }
@@ -34,11 +33,7 @@
     </div>
   </div>
   <script fetchpriority="high" type="text/javascript" src="app.js"></script>
-
   <script data-goatcounter="https://droidrage.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-
-
-
 </body>
 
 </html>
