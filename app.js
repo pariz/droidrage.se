@@ -128,8 +128,9 @@
       elemContent.appendChild(commandLink);
 
       function handleInteraction(e) {
+        console.log(e.type);
         e.preventDefault();
-        pushState(cmd[0]);
+        pushState(cmd[0], e.type);
         writeRepl(repl[cmd[1]]);
       }
 
@@ -176,8 +177,13 @@
     inputReady = true;
   }
 
-  function pushState(state) {
-    window.location.hash = state;
+  function pushState(path, type) {
+    window.location.hash = path;
+    window.goatcounter.count({
+      path: location.pathname + location.search + location.hash,
+      title: type + " to " + window.location.hash,
+      event: true,
+    });
   }
 
   function genElements() {
@@ -220,7 +226,7 @@
         case "Enter":
           const cmd = commands[1].find((c) => c[0] === inputBuffer);
           if (cmd !== undefined) {
-            pushState(cmd[0]);
+            pushState(cmd[0]), "keyboard_input";
             writeRepl(repl[cmd[1]]);
           }
           inputBuffer = "";
