@@ -226,7 +226,7 @@
         case "Enter":
           const cmd = commands[1].find((c) => c[0] === inputBuffer);
           if (cmd !== undefined) {
-            pushState(cmd[0]), "keyboard_input";
+            pushState(cmd[0], "keyboard_input");
             writeRepl(repl[cmd[1]]);
           }
           inputBuffer = "";
