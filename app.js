@@ -1,76 +1,90 @@
 (function () {
   let repl = [
     [
-      [">       _           _     _                      "],
-      [">    __| |_ __ ___ (_) __| |_ __ __ _  __ _  ___ "],
-      [">   / _` | '__/ _ \\| |/ _` | '__/ _` |/ _` |/ _ \\"],
-      [">  | (_| | | | (_) | | (_| | | | (_| | (_| |  __/"],
-      [">   \\__,_|_|  \\___/|_|\\__,_|_|  \\__,_|\\__, |\\___|"],
-      [">                                     |___/      "],
-      [">  "],
-      ["> welcome to droidrage"],
-      [">  "],
-      ["> highpriest of the mainframe since ´99"],
-      [">  "],
+      ["      _           _     _                      "],
+      ["   __| |_ __ ___ (_) __| |_ __ __ _  __ _  ___ "],
+      ["  / _` | '__/ _ \\| |/ _` | '__/ _` |/ _` |/ _ \\"],
+      [" | (_| | | | (_) | | (_| | | | (_| | (_| |  __/"],
+      ["  \\__,_|_|  \\___/|_|\\__,_|_|  \\__,_|\\__, |\\___|"],
+      ["                                    |___/      "],
+      [""],
+      [["h1", "Welcome to droidrage", {}]],
+      [""],
+      ["High priest of the mainframe since ´99"],
+      [""],
     ],
     [
+      [["h1", "About me", {}]],
+      [""],
       [
-        "> My name is Pär. I’m a self-employed developer, born on a cold autumn day in the northern part of Sweden in ’80.",
+        "My name is Pär. I’m a self-employed developer, born on a cold autumn day in the northern part of Sweden in ’80.",
       ],
-      ["> I have always had a passion for learning things."],
+      ["I have always had a passion for learning things."],
       [
-        "> When I got my first computer at 15, I started learning how to code almost immediately.",
+        "When I got my first computer at 15, I started learning how to code almost immediately.",
       ],
-      ["> Since ’99, I have worked professionally as a developer."],
-      [">  "],
+      ["Since ’99, I have worked professionally as a developer."],
+      [""],
     ],
     [
-      ["> wanna get in touch?"],
+      [["h1", "Contact", {}]],
+      [""],
       [
-        "> you can find me at ",
-        ["github", "https://github.com/pariz"],
+        "You can find me at ",
+        ["a", "github", { href: "https://github.com/pariz", target: "_blank" }],
         ", ",
         [
+          "a",
           "stack overflow",
-          "https://stackoverflow.com/users/1503261/p%c3%a4r-karlsson",
+          {
+            href: "https://stackoverflow.com/users/1503261/p%c3%a4r-karlsson",
+            target: "_blank",
+          },
         ],
         ", ",
-        ["linkedin", "https://www.linkedin.com/in/parkarlsson"],
+        [
+          "a",
+          "linkedin",
+          { href: "https://www.linkedin.com/in/parkarlsson", target: "_blank" },
+        ],
       ],
-      ["> or contact me by dropping an email at hi@{replace-with-my-domain}"],
-      [">  "],
+      ["or contact me by dropping an email at hi@{replace-with-my-domain}"],
+      [""],
     ],
     [
+      [["h1", "Tech stuff", {}]],
+      [""],
       [
-        "> For the past few years, I have mostly worked with Golang, Elixir, JavaScript, SQL/NoSQL DBs, Redis, and RabbitMQ.",
+        "For the past few years, I have mostly worked with Golang, Elixir, JavaScript, SQL/NoSQL DBs, Redis, and RabbitMQ.",
       ],
       [
-        "> The stuff I have worked on usually runs in AWS or GCP, either on k8s or nomad.",
+        "The stuff I have worked on usually runs in AWS or GCP, either on k8s or nomad.",
       ],
-      [">  "],
+      [""],
       [
-        "> This site was created in the evening of a rainy august, leveraging pure vanilla JavaScript.",
+        "This site was created in the evening of a rainy august, leveraging pure vanilla JavaScript.",
       ],
-      [">  "],
+      [""],
       [
-        "> If you're interested in learning more about me, my full resumé is available upon request.",
+        "If you're interested in learning more about me, my full resumé is available upon request.",
       ],
-      [">  "],
+      [""],
     ],
     [
+      [["h1", "What is droidrage?", {}]],
       [
-        "> Droidrage is the name of my company, it's sort of a wordplay between roid rage and droids.",
+        "Droidrage is the name of my company, it's sort of a wordplay between roid rage and droids.",
       ],
-      ["> ... unfortunately few get it :/"],
+      ["... unfortunately few get it :/"],
       [
-        "> I decided to start my company in spring 2021 after a long time working as an employed developer.",
+        "I decided to start my company in spring 2021 after a long time working as an employed developer.",
       ],
-      [">  "],
+      [""],
     ],
   ];
 
   let commands = [
-    "> available commands: ",
+    "available commands: ",
     [
       ["home", 0],
       ["whoami", 1],
@@ -92,13 +106,16 @@
       for (const col of line) {
         switch (typeof col) {
           case "object":
-            const link = document.createElement("a");
-            link.setAttribute("href", "#" + col[1]);
-            link.setAttribute("target", "_blank");
+            const link = document.createElement(col[0]);
+
+            for (const [key, value] of Object.entries(col[2])) {
+              console.log(`${key}: ${value}`);
+              link.setAttribute(key, value);
+            }
 
             elemContent.appendChild(link);
 
-            await writeReplChars(col[0], link);
+            await writeReplChars(col[1], link);
             break;
 
           default:
@@ -114,7 +131,7 @@
   async function writeReplCommands() {
     const [h, cmds] = commands;
 
-    let [elem, elemContent, removeCursorFunction] = genElements();
+    let [elem, elemContent, removeCursorFunction] = genElements("nav");
 
     container.appendChild(elem);
 
@@ -127,14 +144,12 @@
       elemContent.appendChild(commandLink);
 
       function handleInteraction(e) {
-        console.log(e.type);
         e.preventDefault();
         pushState(cmd[0], e.type);
         writeRepl(repl[cmd[1]]);
       }
 
       commandLink.addEventListener("touchend", handleInteraction);
-
       commandLink.addEventListener("click", handleInteraction);
 
       await writeReplChars(cmd[0], commandLink);
@@ -165,7 +180,7 @@
 
   async function writeReplInput() {
     const [inputFeedElem, inputFeedElemContent] = genElements();
-    inputFeedElemContent.innerHTML += "> ";
+    //inputFeedElemContent.innerHTML += "> ";
     container.appendChild(inputFeedElem);
   }
 
@@ -196,15 +211,16 @@
     });
   }
 
-  function genElements() {
+  function genElements(contentTag = "span") {
     let cursor = document.createElement("span");
     cursor.innerHTML = "_";
     cursor.className = "cursor";
 
     let elem = document.createElement("div");
-    let elemContent = document.createElement("span");
-    elem.appendChild(elemContent);
+    elem.className = "repl-line";
+    let elemContent = document.createElement(contentTag);
 
+    elem.appendChild(elemContent);
     elem.appendChild(cursor);
 
     return [
@@ -254,7 +270,7 @@
             inputBuffer += evt.key;
           }
       }
-      replElem.innerHTML = "> " + inputBuffer;
+      replElem.innerHTML = inputBuffer;
     });
   })();
 
