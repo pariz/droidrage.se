@@ -5,19 +5,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="senior developer from Östersund, Sweden">
+  <meta name="description" content="Senior software engineer from Östersund, Sweden">
   <title>Droidrage AB</title>
   <link rel="stylesheet" href="app.css">
 
   <script type="text/javascript">
-    window.addEventListener("hashchange", setDocumentTitle);
-    window.addEventListener("DOMContentLoaded", setDocumentTitle);
+    window.addEventListener("hashchange", setPageProps);
+    window.addEventListener("DOMContentLoaded", setPageProps);
 
-    function setDocumentTitle(evt) {
+
+    const metaDescriptions = {
+      "home": "Senior software engineer from Östersund, Sweden",
+      "whoami": "Born in Jämtland, and lives near Östersund, Sweden",
+      "contact": "You can find me on social medias or by emailing me",
+      "tech": "I specialize in golang and cloud services, but can dabble with most technologies",
+      "droidrage": "Want to know what Droidrage stands for? :)",
+    }
+
+
+    function setPageProps(evt) {
       const page = document.location.hash.replace("#", "")
       if (page.length > 0) {
         document.title = "Droidrage AB - " + page
       }
+      console.log(page,metaDescriptions)
+      document.querySelector('meta[name="description"]').setAttribute("content", metaDescriptions[page]);
+
+
     }
   </script>
 </head>
