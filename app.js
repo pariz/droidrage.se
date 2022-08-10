@@ -109,7 +109,6 @@
             const link = document.createElement(col[0]);
 
             for (const [key, value] of Object.entries(col[2])) {
-              console.log(`${key}: ${value}`);
               link.setAttribute(key, value);
             }
 
