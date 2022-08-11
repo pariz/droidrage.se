@@ -72,6 +72,7 @@
     ],
     [
       [["h1", "What is droidrage?", {}]],
+      [""],
       [
         "Droidrage is the name of my company, it's sort of a wordplay between roid rage and droids.",
       ],
@@ -82,6 +83,11 @@
       [""],
     ],
   ];
+
+  // remove the 1337 droidrage print for all crawlers
+  if (isCrawler()) {
+    repl[0].splice(0, 7);
+  }
 
   let commands = [
     "available commands: ",
